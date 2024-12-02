@@ -1,5 +1,6 @@
 import React from "react";
-const Filter = ({ onSearchChange, onRegionChange, onCurrencyChange, darkMode, toggleDarkMode, currencies }) => {
+
+const Filter = ({ onSearchChange, onRegionChange, darkMode, toggleDarkMode }) => {
   return (
     <section
       className={`filter flex justify-between items-center p-4 shadow ${
@@ -34,25 +35,6 @@ const Filter = ({ onSearchChange, onRegionChange, onCurrencyChange, darkMode, to
           <option value="Europe">Europe</option>
           <option value="Oceania">Oceania</option>
           <option value="Asia">Asia</option>
-        </select>
-      </div>
-
-      {/* Currency Filter */}
-      <div>
-        <select
-          name="selectCurrency"
-          id="selectCurrency"
-          className={`select ${
-            darkMode ? "bg-gray-800 text-white border-gray-700" : "bg-white text-black border-gray-300"
-          }`}
-          onChange={(e) => onCurrencyChange(e.target.value)}
-        >
-          <option value="">Filter By Currency</option>
-          {currencies.map((currency) => (
-            <option key={currency} value={currency}>
-              {currency}
-            </option>
-          ))}
         </select>
       </div>
 
