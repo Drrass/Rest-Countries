@@ -9,26 +9,13 @@ const Countries = () => {
   const [filteredCountries, setFilteredCountries] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedRegion, setSelectedRegion] = useState("");
-  const [selectedCurrency, setSelectedCurrency] = useState("");
   const [darkMode, setDarkMode] = useState(false);
-  const [currencies, setCurrencies] = useState([]);
 
   useEffect(() => {
     const fetchCountriesData = async () => {
       const response = await fetch(url);
       const data = await response.json();
       setCountries(data);
-
-      // Extract unique currencies
-      const allCurrencies = new Set();
-      data.forEach((country) => {
-        if (country.currencies) {
-          Object.keys(country.currencies).forEach((currency) => {
-            allCurrencies.add(country.currencies[currency].name);
-          });
-        }
-      });
-      setCurrencies([...allCurrencies]);
     };
     fetchCountriesData();
   }, []);
@@ -48,20 +35,8 @@ const Countries = () => {
       );
     }
 
-    // Filter by selected currency
-    if (selectedCurrency) {
-      filtered = filtered.filter((country) => {
-        return (
-          country.currencies &&
-          Object.values(country.currencies).some(
-            (currency) => currency.name === selectedCurrency
-          )
-        );
-      });
-    }
-
     setFilteredCountries(filtered);
-  }, [selectedRegion, searchQuery, selectedCurrency, countries]);
+  }, [selectedRegion, searchQuery, countries]);
 
   const toggleDarkMode = () => {
     setDarkMode((prevMode) => !prevMode);
@@ -72,10 +47,8 @@ const Countries = () => {
       <Filter
         onSearchChange={setSearchQuery}
         onRegionChange={setSelectedRegion}
-        onCurrencyChange={setSelectedCurrency}
         darkMode={darkMode}
         toggleDarkMode={toggleDarkMode}
-        currencies={currencies}
       />
 
       <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
